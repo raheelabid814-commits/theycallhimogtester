@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>OnixPlay+</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- PWA Support -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#00ff88">
+    
+    <!-- iOS support -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="OnixPlay+">
+    <link rel="apple-touch-icon" href="app_logo.jpg">
+</head>
+<body>
+    <div id="app">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="nav-left">
+                <div class="logo">
+                    <img src="moviepirate_icon.png" alt="OnixPlay+" class="logo-img">
+                </div>
+            </div>
+            <div class="nav-right">
+                <div class="user-avatar"></div>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <header class="hero" id="hero">
+            <div class="trailer-container" id="trailer-container">
+                <div id="youtube-player"></div>
+            </div>
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+                <h1 id="movie-title" class="title-glow">They Call Him OG</h1>
+                <div class="meta-info">
+                    <span id="release-year">2025</span>
+                    <span class="age-rating">18+</span>
+                    <span id="runtime">2h 45m</span>
+                    <span class="quality-tag">1080p Full HD</span>
+                </div>
+                <div class="hero-actions">
+                    <button id="play-btn" class="btn btn-primary"><i class="fas fa-play"></i> Play</button>
+                    <button id="mylist-btn" class="btn btn-secondary"><i class="fas fa-plus"></i> My List</button>
+                </div>
+                <p id="movie-description" class="description">
+                    A powerful gangster returns to reclaim his empire and settle old scores in this stylish action-packed drama. The legend of OG begins.
+                </p>
+            </div>
+        </header>
+
+        <!-- Episodes Section (For Series) -->
+        <section id="episodes-section" class="content-section" style="display: none;">
+            <div class="section-header">
+                <h2>Episodes</h2>
+            </div>
+            <div class="episodes-list" id="episodes-list"></div>
+        </section>
+
+        <!-- Professional Mobile Video Player -->
+        <div id="player-overlay" class="player-overlay">
+            <!-- Top Controls -->
+            <div class="player-top-bar player-ui-element">
+                <button id="close-player" class="player-icon-btn"><i class="fas fa-arrow-left"></i></button>
+                <div id="player-media-title" class="player-media-title">They Call Him OG</div>
+                <button id="lock-player" class="player-icon-btn"><i class="fas fa-unlock"></i></button>
+            </div>
+
+            <!-- Side Controls (Brightness) -->
+            <div class="player-side-bar player-ui-element">
+                <div class="brightness-control">
+                    <i class="fas fa-sun"></i>
+                    <div class="vertical-slider-container">
+                        <input type="range" id="brightness-slider" orient="vertical" min="0" max="100" value="100">
+                        <div id="brightness-fill" class="slider-fill" style="height: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Center Controls -->
+            <div class="player-center-controls player-ui-element">
+                <button id="rewind-10" class="player-center-btn"><i class="fas fa-undo"></i><span>10</span></button>
+                <button id="toggle-play-center" class="player-play-btn"><i class="fas fa-play"></i></button>
+                <button id="forward-10" class="player-center-btn"><i class="fas fa-redo"></i><span>10</span></button>
+            </div>
+
+            <!-- Bottom Controls -->
+            <div class="player-bottom-bar player-ui-element">
+                <div class="player-progress-area">
+                    <div id="progress-bar-container" class="progress-bar-container">
+                        <div id="preview-thumbnail" class="preview-thumbnail">
+                            <video id="preview-video" muted playsinline></video>
+                            <span id="preview-time">00:00</span>
+                        </div>
+                        <div id="player-progress-bar" class="progress-bar-fill"></div>
+                        <div id="player-progress-handle" class="progress-handle"></div>
+                    </div>
+                    <div class="player-time-info">
+                        <span id="current-time-display">00:00</span>
+                        <span id="duration-display">00:00</span>
+                    </div>
+                </div>
+                
+                <div class="player-actions-row">
+                    <button id="speed-btn" class="player-action-item"><i class="fas fa-tachometer-alt"></i><span id="current-speed-text">Normal (1x)</span></button>
+                    <button id="audio-subs-btn" class="player-action-item"><i class="fas fa-comment-alt"></i><span>Audio & Subtitles</span></button>
+                    <button id="fit-screen-btn" class="player-action-item"><i class="fas fa-expand"></i><span>Fit Screen</span></button>
+                    <button id="rotate-screen-btn" class="player-action-item"><i class="fas fa-sync-alt"></i><span>Rotate</span></button>
+                </div>
+            </div>
+
+            <!-- Video Container -->
+            <div id="video-wrapper" class="video-wrapper">
+                <video id="main-video" class="main-video" playsinline></video>
+            </div>
+
+            <!-- Lock Screen Message -->
+            <div id="lock-message" class="lock-message">
+                <div class="lock-icon-circle"><i class="fas fa-lock"></i></div>
+                <div class="lock-text">Screen Locked</div>
+                <div class="lock-subtext">Tap to Unlock</div>
+            </div>
+
+            <!-- Settings Modals (Green Theme) -->
+            <div id="speed-modal" class="player-modal">
+                <div class="modal-content">
+                    <h3>Playback Speed</h3>
+                    <div class="speed-options">
+                        <button class="speed-opt" data-speed="0.5">0.5x</button>
+                        <button class="speed-opt" data-speed="0.75">0.75x</button>
+                        <button class="speed-opt active" data-speed="1">Normal (1x)</button>
+                        <button class="speed-opt" data-speed="1.25">1.25x</button>
+                        <button class="speed-opt" data-speed="1.5">1.5x</button>
+                    </div>
+                    <button class="modal-close-btn">Close</button>
+                </div>
+            </div>
+
+            <div id="audio-subs-modal" class="player-modal audio-subs-modal">
+                <div class="modal-body">
+                    <div class="modal-columns">
+                        <div class="modal-column">
+                            <h3>Audio</h3>
+                            <div id="audio-track-list" class="track-list">
+                                <!-- Tracks will be injected here -->
+                            </div>
+                        </div>
+                        <div class="modal-column">
+                            <h3>Subtitles</h3>
+                            <div id="subtitle-track-list" class="track-list">
+                                <!-- Tracks will be injected here -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="modal-btn cancel-btn">Cancel</button>
+                        <button class="modal-btn apply-btn">Apply</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Share Modal -->
+            <div id="share-modal" class="player-modal share-modal">
+                <div class="modal-content">
+                    <h3>Share moment</h3>
+                    <div class="share-grid">
+                        <div class="share-item"><i class="fab fa-whatsapp"></i><span>WhatsApp</span></div>
+                        <div class="share-item"><i class="fas fa-comment"></i><span>Messages</span></div>
+                        <div class="share-item"><i class="fab fa-instagram"></i><span>Instagram</span></div>
+                        <div class="share-item"><i class="fab fa-snapchat"></i><span>Snapchat</span></div>
+                        <div class="share-item"><i class="fab fa-x-twitter"></i><span>X</span></div>
+                        <div class="share-item"><i class="fas fa-link"></i><span>Copy link</span></div>
+                    </div>
+                    <button class="modal-close-btn">Skip</button>
+                </div>
+            </div>
+
+            <!-- Loading Spinner -->
+            <div id="player-loading" class="player-loading">
+                <div class="liquid-spinner-green"></div>
+                <p>Loading ultra-fast...</p>
+            </div>
+        </div>
+        
+        <!-- Orientation Warning for Mobile -->
+        <div id="orientation-warning" class="orientation-warning">
+            <i class="fas fa-mobile-alt"></i>
+            <h2>Please Rotate Your Device</h2>
+            <p>For the best experience, use landscape mode (16:9)</p>
+        </div>
+    </div>
+
+    <!-- Background Orbs -->
+    <div class="glass-orb orb-1"></div>
+    <div class="glass-orb orb-2"></div>
+
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script src="script.js"></script>
+</body>
+</html>
