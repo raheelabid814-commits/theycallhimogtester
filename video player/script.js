@@ -3,7 +3,7 @@ const BASE_URL = 'https://api.themoviedb.org/3';
 const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/original';
 
 // User Links
-const OG_LINK = 'https://sgpo1-4.download.real-debrid.com/d/5YXGWNUOH2YWM108/They%20Call%20Him%20OG%20%282025%29%20720p%2010bit%20DS4K%20NF%20WEBRip%20x265%20HEVC%20%5BHindi%20AAC%205.1%20%2B%20Telugu%20AAC%205.1%5D%20ESub%20-%20Immortal.mkv';
+const OG_LINK = 'https://sgpo1-4.download.real-debrid.com/d/P2V75PWCX3G7E32/They%20Call%20Him%20OG%20%5BHindi%5D-1080P.mp4';
 
 // State
 let ytPlayer;

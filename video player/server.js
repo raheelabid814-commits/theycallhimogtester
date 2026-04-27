@@ -61,11 +61,12 @@ app.get('/api/stream', (req, res) => {
 
     const ffmpegPath = path.join(__dirname, 'ffmpeg.exe');
     
-    // Command to remux on the fly: copy video, transcode audio to stereo AAC for mobile compatibility
-    let command = `"${ffmpegPath}" -i "${videoUrl}" -map 0:v:0 -map 0:${audioIndex} -c:v copy -c:a aac -ac 2 -f matroska -`;
+    // Command to remux on the fly: copy video, select specific audio
+    // Remove -re to allow the browser to buffer as fast as possible
+    let command = `"${ffmpegPath}" -i "${videoUrl}" -map 0:v:0 -map 0:${audioIndex} -c copy -f matroska -`;
     
     if (subIndex !== -1) {
-        command = `"${ffmpegPath}" -i "${videoUrl}" -map 0:v:0 -map 0:${audioIndex} -map 0:${subIndex} -c:v copy -c:a aac -ac 2 -c:s copy -f matroska -`;
+        command = `"${ffmpegPath}" -i "${videoUrl}" -map 0:v:0 -map 0:${audioIndex} -map 0:${subIndex} -c copy -f matroska -`;
     }
 
     res.setHeader('Content-Type', 'video/x-matroska');
