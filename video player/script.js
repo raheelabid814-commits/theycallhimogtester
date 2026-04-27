@@ -3,7 +3,7 @@ const BASE_URL = 'https://api.themoviedb.org/3';
 const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/original';
 
 // User Links
-const PUSHPA_LINK = 'https://sgpo1-4.download.real-debrid.com/d/S23YS2FUNO77M40/They%20Call%20Him%20OG%20%282025%29%20Hin%20720p%20WEBRip%20x265%20DD%205.1%20ESub.mkv';
+const OG_LINK = 'https://sgpo1-4.download.real-debrid.com/d/5YXGWNUOH2YWM108/They%20Call%20Him%20OG%20%282025%29%20720p%2010bit%20DS4K%20NF%20WEBRip%20x265%20HEVC%20%5BHindi%20AAC%205.1%20%2B%20Telugu%20AAC%205.1%5D%20ESub%20-%20Immortal.mkv';
 
 // State
 let ytPlayer;
@@ -337,7 +337,7 @@ function openPlayer() {
     
     if (ytPlayer && playerReady) ytPlayer.pauseVideo();
     
-    mainVideo.src = PUSHPA_LINK;
+    mainVideo.src = OG_LINK;
     mainVideo.preload = 'auto';
     mainVideo.load();
     
@@ -484,7 +484,7 @@ async function loadTracks() {
 
     try {
         // Fetch real metadata from our local Node server
-        const response = await fetch(`http://localhost:3000/api/metadata?url=${encodeURIComponent(PUSHPA_LINK)}`);
+        const response = await fetch(`http://localhost:3000/api/metadata?url=${encodeURIComponent(OG_LINK)}`);
         const data = await response.json();
 
         if (data.audio && data.audio.length > 0) {
@@ -546,7 +546,7 @@ function switchTrack(audioId, subId) {
     const isPaused = mainVideo.paused;
     
     // Construct new URL that selects the specific audio index
-    const newUrl = `http://localhost:3000/api/stream?url=${encodeURIComponent(PUSHPA_LINK)}&audio=${audioId}`;
+    const newUrl = `http://localhost:3000/api/stream?url=${encodeURIComponent(OG_LINK)}&audio=${audioId}`;
     
     mainVideo.src = newUrl;
     mainVideo.load();
